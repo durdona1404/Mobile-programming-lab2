@@ -23,7 +23,7 @@ void solution1_4(List<String> arguments) {
 void solution1_5(List<String> arguments) {
   if (arguments.length != 2) {
     print('Warning: exactly 2 arguments required.');
-    print('Usage: dart run lab2_section1_main.dart <arg1> <arg2>');
+    print('Usage: dart run task1.dart <arg1> <arg2>');
     return;
   }
   print('Received: ${arguments[0]} and ${arguments[1]}');
