@@ -15,7 +15,7 @@ Future<User> fetchUserFromDb(int id) async {
   return User(id, 'Student $id');
 }
 
-Future<void> solution11_2() async {
+Future<void> problem2() async {
   print('Looking up user...');
   final user = await fetchUserFromDb(7);
   print('Found: $user');
@@ -26,26 +26,24 @@ Future<String> runTask(String name, int seconds) async {
   return '$name finished after ${seconds}s';
 }
 
-Future<void> solution11_3() async {
-  final watch = Stopwatch()..start();
+Future<void> problem3() async {
   final results = await Future.wait([
     runTask('Task A', 1),
-    runTask('Task B', 2),
-    runTask('Task C', 3),
+    runTask('Task B', 1),
+    runTask('Task C', 1),
   ]);
   for (final result in results) {
     print(result);
   }
-  print('Total time: about ${watch.elapsed.inSeconds}s (concurrent, not 6s)');
 }
 
-Future<void> solution11_4() async {
+Future<void> problem4() async {
   final done = Completer<void>();
   late StreamSubscription<int> subscription;
   int received = 0;
 
   subscription = Stream.periodic(
-    const Duration(milliseconds: 300),
+    const Duration(milliseconds: 200),
     (tick) => tick + 1,
   ).listen((value) {
     received++;
@@ -60,8 +58,43 @@ Future<void> solution11_4() async {
   print('Subscription cancelled after $received emissions');
 }
 
+Stream<int> numbers() async* {
+  for (var n in [1, 2, 2, 3, 4, 4, 5, 6]) {
+    await Future.delayed(const Duration(milliseconds: 50));
+    yield n;
+  }
+}
+
+Future<void> problem5() async {
+  var result = numbers().where((n) => n.isEven).map((n) => n * 10).distinct();
+
+  await for (var value in result) {
+    print('Value: $value');
+  }
+}
+
+Future<void> problem6() async {
+  var controller = StreamController<int>();
+
+  controller.add(1);
+  controller.add(2);
+  controller.addError('Something broke');
+  controller.add(4);
+  controller.close();
+
+  var safeStream = controller.stream.handleError((error) {
+    print('Handled error: $error');
+  });
+
+  await for (var value in safeStream) {
+    print('Value: $value');
+  }
+}
+
 Future<void> main() async {
-  await solution11_2();
-  await solution11_3();
-  await solution11_4();
+  await problem2();
+  await problem3();
+  await problem4();
+  await problem5();
+  await problem6();
 }
