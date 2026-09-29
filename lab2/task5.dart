@@ -1,6 +1,6 @@
 import 'dart:math';
 
-void solution5_2() {
+void problem2() {
   double a = 1, b = -5, c = 6;
 
   // Discriminant of ax^2 + bx + c = 0
@@ -29,7 +29,7 @@ class Validator {
   static bool isValidAge(int age) => age >= 0 && age <= 120;
 }
 
-void solution5_3() {
+void problem3() {
   print('student@newuu.uz valid? ${Validator.isValidEmail('student@newuu.uz')}');
   print('not-an-email valid? ${Validator.isValidEmail('not-an-email')}');
   print('Age 20 valid? ${Validator.isValidAge(20)}');
@@ -53,13 +53,90 @@ double circleArea(double radius) {
   return pi * radius * radius;
 }
 
-void solution5_4() {
+void problem4() {
   print('Area (radius 2): ${circleArea(2)}');
   print('Area (radius 0): ${circleArea(0)}');
 }
 
+/// A basic shape.
+class Shape5 {
+  /// Returns the area of the shape.
+  ///
+  /// Subclasses should override this method.
+  double area() => 0;
+
+  /// Old way to get the area.
+  ///
+  /// Use [area] instead.
+  @deprecated
+  double getArea() => area();
+}
+
+/// A square shape.
+class Square5 extends Shape5 {
+  /// Length of one side.
+  final double side;
+
+  /// Creates a square with the given [side].
+  Square5(this.side);
+
+  /// Returns the side multiplied by itself.
+  @override
+  double area() => side * side;
+}
+
+void problem5() {
+  final square = Square5(3);
+  print('Area: ${square.area()}');
+  print('Old way: ${square.getArea()}');
+}
+
+/// Manages a simple list of to-do items.
+///
+/// Example:
+/// ```dart
+/// final list = TodoList();
+/// list.add('Study Dart');
+/// print(list.count); // 1
+/// ```
+class TodoList {
+  final List<String> _items = [];
+
+  /// The number of items in the list.
+  int get count => _items.length;
+
+  /// All items as a list that cannot be changed.
+  List<String> get items => List.unmodifiable(_items);
+
+  /// Adds an [item] to the list.
+  ///
+  /// Throws an [ArgumentError] if [item] is empty.
+  void add(String item) {
+    if (item.isEmpty) {
+      throw ArgumentError('Item cannot be empty');
+    }
+    _items.add(item);
+  }
+
+  /// Removes [item] from the list.
+  ///
+  /// Returns `true` if it was removed and `false` if it was not found.
+  bool remove(String item) => _items.remove(item);
+}
+
+void problem6() {
+  final list = TodoList();
+  list.add('Study Dart');
+  list.add('Do the lab');
+  print('Items: ${list.items}');
+  print('Count: ${list.count}');
+  print('Removed? ${list.remove('Do the lab')}');
+}
+
 void main() {
-  solution5_2();
-  solution5_3();
-  solution5_4();
+  problem2();
+  problem3();
+  problem4();
+  problem5();
+  problem6();
 }
