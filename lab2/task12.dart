@@ -3,7 +3,7 @@ int divide(int a, int b) {
   return a ~/ b;
 }
 
-void solution12_2() {
+void problem2() {
   try {
     print('10 / 2 = ${divide(10, 2)}');
     print('10 / 0 = ${divide(10, 0)}');
@@ -19,7 +19,7 @@ void greet(String? name) {
   print('Hello, $name!');
 }
 
-void solution12_3() {
+void problem3() {
   for (final input in <String?>['Durdona', '', null]) {
     try {
       greet(input);
@@ -43,7 +43,7 @@ void risky(int mode) {
   }
 }
 
-void solution12_4() {
+void problem4() {
   for (int mode = 1; mode <= 4; mode++) {
     try {
       risky(mode);
@@ -59,8 +59,41 @@ void solution12_4() {
   }
 }
 
-void main() {
-  solution12_2();
-  solution12_3();
-  solution12_4();
+void broken() {
+  List<int> list = [];
+  print(list.first);
+}
+
+void problem5() {
+  try {
+    broken();
+  } catch (e, stackTrace) {
+    print('Error: $e');
+    print('Stack trace:\n$stackTrace');
+  }
+}
+
+void readAge(String text) {
+  try {
+    int.parse(text);
+  } on FormatException catch (e) {
+    print('Logging error: ${e.message}');
+    rethrow;
+  }
+}
+
+void problem6() {
+  try {
+    readAge('abc');
+  } on FormatException {
+    print('Caught again in problem6');
+  }
+}
+
+Future<void> main() async {
+  problem2();
+  problem3();
+  problem4();
+  problem5();
+  problem6();
 }
