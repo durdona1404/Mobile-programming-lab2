@@ -1,6 +1,6 @@
 enum Day { monday, tuesday, wednesday, thursday, friday, saturday, sunday }
 
-void solution7_2() {
+void problem2() {
   for (final day in Day.values) {
     print('${day.index + 1}: ${day.name}');
   }
@@ -15,7 +15,7 @@ String statusMessage(Status status) => switch (status) {
       Status.empty => 'Nothing to show',
     };
 
-void solution7_3() {
+void problem3() {
   for (final status in Status.values) {
     print('${status.name} -> ${statusMessage(status)}');
   }
@@ -43,14 +43,62 @@ enum TShirtSize implements Describable {
   String describe() => 'Size $label (level $level)';
 }
 
-void solution7_4() {
+void problem4() {
   for (final size in TShirtSize.values) {
     print('${size.describe()} costs \$${size.priceFor(20).toStringAsFixed(2)}');
   }
 }
 
+enum Fruit { apple, banana, cherry }
+
+Fruit? parseFruit(String text) {
+  try {
+    return Fruit.values.byName(text);
+  } on ArgumentError {
+    return null;
+  }
+}
+
+void problem5() {
+  print(parseFruit('banana'));
+  print(parseFruit('mango'));
+}
+
+enum Setting<T> {
+  volume<int>(50),
+  darkMode<bool>(false),
+  username<String>('guest');
+
+  final T defaultValue;
+
+  const Setting(this.defaultValue);
+
+  static Setting? find(String name) {
+    for (final s in Setting.values) {
+      if (s.name == name) {
+        return s;
+      }
+    }
+    return null;
+  }
+
+  static void printAll() {
+    for (final s in Setting.values) {
+      print('${s.name} = ${s.defaultValue}');
+    }
+  }
+}
+
+void problem6() {
+  Setting.printAll();
+  print('Found: ${Setting.find('volume')?.name}');
+  print('Found: ${Setting.find('unknown')?.name}');
+}
+
 void main() {
-  solution7_2();
-  solution7_3();
-  solution7_4();
+  problem2();
+  problem3();
+  problem4();
+  problem5();
+  problem6();
 }
