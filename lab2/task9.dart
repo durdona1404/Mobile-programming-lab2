@@ -21,7 +21,7 @@ class MySQLConnector implements DBConnector {
   }
 }
 
-void solution9_2() {
+void problem2() {
   final DBConnector db = MySQLConnector();
   db.connect();
   db.disconnect();
@@ -33,7 +33,7 @@ mixin Flyable {
 
 class Bird with Flyable {}
 
-void solution9_3() {
+void problem3() {
   Bird().fly();
 }
 
@@ -47,15 +47,57 @@ mixin Swimmer {
 
 class Duck with Walker, Swimmer, Flyable {}
 
-void solution9_4() {
+void problem4() {
   final duck = Duck();
   duck.walk();
   duck.swim();
   duck.fly();
 }
 
+class Animal {
+  void breathe() => print('breathing');
+}
+
+mixin AquaticMixin on Animal {
+  void swimInWater() {
+    breathe();
+    print('swimming');
+  }
+}
+
+class Fish extends Animal with AquaticMixin {}
+
+void problem5() {
+  Fish().swimInWater();
+}
+
+abstract class Startable {
+  void start();
+}
+
+class Car implements Startable {
+  @override
+  void start() => print('Car: I wrote my own start');
+}
+
+mixin StartLogic {
+  void start() => print('$runtimeType: using start from the mixin');
+}
+
+class Bike with StartLogic {}
+
+class Scooter with StartLogic {}
+
+void problem6() {
+  Car().start();
+  Bike().start();
+  Scooter().start();
+}
+
 void main() {
-  solution9_2();
-  solution9_3();
-  solution9_4();
+  problem2();
+  problem3();
+  problem4();
+  problem5();
+  problem6();
 }
